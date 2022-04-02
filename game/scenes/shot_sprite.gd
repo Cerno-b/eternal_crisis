@@ -1,4 +1,4 @@
-extends Node2D
+extends AnimatedSprite
 
 
 # Declare member variables here. Examples:
@@ -8,10 +8,9 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	self.offset.x += 5
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
+#func _process(delta):
+#	pass

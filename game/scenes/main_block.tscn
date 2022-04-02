@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/main_block.gd" type="Script" id=1]
+[ext_resource path="res://sprites/main_block.png" type="Texture" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="main_block" type="AnimatedSprite"]
+frames = SubResource( 1 )
+centered = false
+script = ExtResource( 1 )

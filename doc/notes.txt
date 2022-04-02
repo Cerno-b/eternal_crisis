@@ -1,0 +1,24 @@
+====
+todo
+====
+
+* Check if Godot network query can be removed at first start
+* Check if Godot allows rotation around a single pixel
+
+* Run a http server in the html5 dir in order to start
+	-> python -m http.server
+	-> open http://localhost:8000/html5.html in browser
+	
+	
+=================
+new stuff learned
+=================
+
+* 1BITDRAGON exists
+
+
+=====
+ideas
+=====
+
+* Play around more with appendages (objects attached to objects that move dependently)
