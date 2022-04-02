@@ -9,13 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "AnimatedSprite",
+"base": "Area2D",
+"class": "GunBlock",
+"language": "GDScript",
+"path": "res://scripts/gun_block.gd"
+}, {
+"base": "Area2D",
 "class": "LineBlock",
 "language": "GDScript",
 "path": "res://scripts/line_block.gd"
+}, {
+"base": "Area2D",
+"class": "MainBlock",
+"language": "GDScript",
+"path": "res://scripts/main_block.gd"
+}, {
+"base": "Area2D",
+"class": "SplitBlock",
+"language": "GDScript",
+"path": "res://scripts/split_block.gd"
 } ]
 _global_script_class_icons={
-"LineBlock": ""
+"GunBlock": "",
+"LineBlock": "",
+"MainBlock": "",
+"SplitBlock": ""
 }
 
 [application]
@@ -23,6 +41,10 @@ _global_script_class_icons={
 config/name="game"
 run/main_scene="res://scenes/root.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://scripts/globals.gd"
 
 [display]
 

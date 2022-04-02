@@ -1,18 +1,12 @@
-extends Area2D
+extends Node
 
-class_name MainBlock
+# max block health
+const MAX_BLOCK_HEALTH = 20
+const MAX_MAIN_BLOCK_HEALTH = 40
 
-var health = Globals.MAX_MAIN_BLOCK_HEALTH
+# damage multiplier for attacking a "deeper" block
+const GROUP_BONUS_DAMAGE_MULTIPLIER = 1.1
 
-# node format: x, y, angle
-var out_nodes = [
-	[41, 22, 0],
-	[22, 41, 90],
-	[3, 22, 180],
-	[22, 3, 270]
-]
-
-var in_node = [21, 21, 0]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

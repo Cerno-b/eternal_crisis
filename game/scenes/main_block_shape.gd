@@ -1,18 +1,10 @@
-extends Area2D
+extends CollisionShape2D
 
-class_name GunBlock
-
-var health = Globals.MAX_BLOCK_HEALTH
-
-# node format: x, y, angle
-var out_nodes = [
-]
-
-var in_node = [3, 7, 180]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	self.position.x = -get_parent().in_node[0] + 22
+	self.position.y = -get_parent().in_node[1] + 22
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

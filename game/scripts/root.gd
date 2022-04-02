@@ -7,6 +7,7 @@ export var line_block_scene: PackedScene #load("res://scenes/line_block.tscn")
 export var gun_block_scene: PackedScene #load("res://scenes/gun_block.tscn")
 
 var main_block
+var main_block_ref
 
 var rng = RandomNumberGenerator.new()
 
@@ -70,9 +71,10 @@ func create_random_definition(depth):
 	return definition
 
 func create_random_boss():
-	if main_block:
+	if main_block_ref and main_block_ref.get_ref():
 		main_block.free()
 	main_block = main_block_scene.instance()
+	main_block_ref = weakref(main_block)
 	main_block.position = Vector2(320, 110)
 	add_child(main_block)
 	
@@ -90,10 +92,35 @@ func create_random_boss():
 	definition = create_random_definition(depth)
 	create_blocks_from_definition(main_block, definition, 2)
 
-func handle_hit(shot, block):
-	pass
-			
+func is_block(block):
+	return block is LineBlock or block is SplitBlock or block is GunBlock
 		
+
+func get_all_child_blocks(block):
+	var blocks = [block]
+	for child in block.get_children():
+		if is_block(child):
+			blocks += get_all_child_blocks(child)
+	return blocks
+			
+
+func handle_hit(shot, block):
+	# prevent shots from hitting twice
+	if !shot.hot:
+		return
+		
+	var relevant_blocks = get_all_child_blocks(block)
+	
+	var total_health = 0
+	for block in relevant_blocks:
+		total_health += block.health
+	for block in relevant_blocks:
+		block.health *= (1 - 1.0/total_health*Globals.GROUP_BONUS_DAMAGE_MULTIPLIER)
+	
+	shot.hot = false
+	shot.queue_free()
+	if block.health <= 0:
+		block.free()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

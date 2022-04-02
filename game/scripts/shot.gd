@@ -5,6 +5,7 @@ extends Area2D
 # var a = 2
 # var b = "text"
 const SPEED = 6
+var hot = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,11 +21,9 @@ func _process(delta):
 	outside = outside || self.global_position.x > get_viewport().size.x + 100
 	outside = outside || self.global_position.y > get_viewport().size.y + 100
 	
-	
-	
 	if outside:
-		self.free()
+		self.queue_free()
 
 
-func _on_shot_body_entered(body):
-	get_parent().handle_hit(self, body)
+func _on_shot_area_entered(area):
+	get_parent().handle_hit(self, area)
