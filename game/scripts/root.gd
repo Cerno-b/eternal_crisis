@@ -13,6 +13,7 @@ var main_block_ref
 
 var rng = RandomNumberGenerator.new()
 
+var countdown = 120.0
 
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
@@ -130,6 +131,10 @@ func free_emitters():
 		if not emitter.emitting:
 			emitter.queue_free()
 
+func update_timer(delta):
+	countdown -= delta
+	get_node("canvas/countdown_label").text = str(countdown).pad_decimals(2)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	create_random_boss()
@@ -150,6 +155,6 @@ func _process(delta):
 		OS.window_fullscreen = !OS.window_fullscreen
 		
 	free_emitters()
-		
-	# handle_shots()
+	
+	update_timer(delta)
 
