@@ -7,6 +7,10 @@ const SPEED = 4
 const SHOT_GAP = 3
 var shot_gap_counter = 0
 
+var hidden = false
+var invincible = false
+var invincible_time = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

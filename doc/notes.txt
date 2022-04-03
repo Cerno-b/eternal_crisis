@@ -12,6 +12,7 @@ todo
 * add boss engine (?)
 * add spread shot for split and main block
 * switch to true randomize on release
+* show -20s longer
 
 
 ==========

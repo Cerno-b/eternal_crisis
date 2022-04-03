@@ -49,7 +49,7 @@ func fire_laser():
 	var shot = laser_scene.instance()
 	shot.global_position = self.global_position
 	shot.global_rotation = self.global_rotation
-	get_tree().root.add_child(shot)
+	get_node("/root/root").add_child(shot)
 	
 func fire_death_ray(stage):
 	if stage == 0:
@@ -75,19 +75,19 @@ func fire_shotgun():
 		var shot = shotgun_scene.instance()
 		shot.global_position = self.global_position
 		shot.global_rotation = self.global_rotation + rotation_offset
-		get_tree().root.add_child(shot)
+		get_node("/root/root").add_child(shot)
 		
 func fire_rocket():
 	var shot = rocket_scene.instance()
 	shot.global_position = self.global_position
 	shot.global_rotation = self.global_rotation
-	get_tree().root.add_child(shot)
+	get_node("/root/root").add_child(shot)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player = get_node("/root/root/player_ship")
 
-	if player.visible:
+	if not player.hidden:
 		var target_rotation = player.global_position.angle_to_point(self.global_position)
 		
 		var delta_angle = self.global_rotation - target_rotation

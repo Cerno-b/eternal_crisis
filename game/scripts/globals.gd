@@ -12,7 +12,8 @@ enum {
 	SHOT_COUNT
 }
 
-enum {STATE_INIT_BEGIN, STATE_INIT, STATE_FIGHT, STATE_PLAYER_HIT, STATE_BOSS_DEFEATED}
+enum {
+	STATE_INIT_BEGIN, STATE_INIT, STATE_FIGHT, STATE_PLAYER_HIT_BEGIN, STATE_PLAYER_HIT, STATE_PLAYER_HIT_END, STATE_BOSS_DEFEATED}
 
 var state = STATE_INIT_BEGIN
 
@@ -22,7 +23,9 @@ const STATE_MAX_WAIT = {
 	STATE_INIT_BEGIN: 0,
 	STATE_INIT: 200,
 	STATE_FIGHT: 0,
-	STATE_PLAYER_HIT: 100,
+	STATE_PLAYER_HIT_BEGIN: 0,
+	STATE_PLAYER_HIT: 20,
+	STATE_PLAYER_HIT_END: 0,
 	STATE_BOSS_DEFEATED: 200
 }
 
@@ -49,6 +52,17 @@ func _ready():
 	pass # Replace with function body.
 
 
+func handle_ui_keys():
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
+		
+	if Input.is_action_just_pressed("ui_scaling_1x"):
+		OS.set_window_size(Vector2(640, 360))
+	if Input.is_action_just_pressed("ui_scaling_2x"):
+		OS.set_window_size(Vector2(1280, 720))
+	if Input.is_action_just_pressed("ui_scaling_fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var max_wait = STATE_MAX_WAIT[state]
@@ -61,4 +75,5 @@ func _process(delta):
 		elif state == STATE_BOSS_DEFEATED:
 			state = STATE_INIT_BEGIN
 		elif state == STATE_PLAYER_HIT:
-			state = STATE_FIGHT
+			state = STATE_PLAYER_HIT_END
+	handle_ui_keys()

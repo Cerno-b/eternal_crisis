@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/the_inevitable.mp3-c5b8f66bb625c6e36ff2d63e269d6348.mp3str"
+
+[deps]
+
+source_file="res://audio/the_inevitable.mp3"
+dest_files=[ "res://.import/the_inevitable.mp3-c5b8f66bb625c6e36ff2d63e269d6348.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

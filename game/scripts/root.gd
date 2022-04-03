@@ -96,7 +96,7 @@ func create_random_boss():
 	create_blocks_from_definition(main_block, definition, 2)
 
 func is_block(block):
-	return block is LineBlock or block is SplitBlock or block is GunBlock
+	return block is LineBlock or block is SplitBlock or block is GunBlock or block is MainBlock
 		
 
 func get_all_child_blocks(block):
@@ -106,6 +106,13 @@ func get_all_child_blocks(block):
 			blocks += get_all_child_blocks(child)
 	return blocks
 			
+
+func create_explosion(node):
+	var explosion = small_explosion_scene.instance()
+	explosion.position = node.global_position
+	add_child(explosion)
+	explosion.emitting = true
+	
 
 func handle_hit(shot, block):
 	# prevent shots from hitting twice
@@ -133,10 +140,7 @@ func handle_hit(shot, block):
 			score += 500
 		else:
 			score += 100
-		var explosion = small_explosion_scene.instance()
-		explosion.position = block.global_position
-		add_child(explosion)
-		explosion.emitting = true
+		create_explosion(block)
 		block.free()
 
 func free_emitters():
@@ -146,10 +150,10 @@ func free_emitters():
 	
 func lerp_countdown():
 	var delta = countdown - display_countdown
-	if abs(delta) < 1:
+	if abs(delta) < 1 or delta / abs(delta) < 0:
 		display_countdown = countdown
 	else:
-		display_countdown += 0.2 * delta / abs(delta)
+		display_countdown += 0.3 * delta / abs(delta)
 	get_node("canvas/countdown_label").text = str(display_countdown).pad_decimals(2)
 
 func lerp_score():
@@ -160,19 +164,6 @@ func lerp_score():
 		display_score += 10 * delta / abs(delta)
 	get_node("canvas/score_label").set_text(str(display_score))
 
-func handle_ui_keys():
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
-		
-	if Input.is_action_just_pressed("ui_page_up"):
-		create_random_boss()
-	if Input.is_action_just_pressed("ui_scaling_1x"):
-		OS.set_window_size(Vector2(640, 360))
-	if Input.is_action_just_pressed("ui_scaling_2x"):
-		OS.set_window_size(Vector2(1280, 720))
-	if Input.is_action_just_pressed("ui_scaling_fullscreen"):
-		OS.window_fullscreen = !OS.window_fullscreen
-
 func is_area_active_shot(area):
 	if area is Rocket or area is Laser or area is Shotgun or area is DeathRay:
 		return true
@@ -180,12 +171,11 @@ func is_area_active_shot(area):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	Globals.state = Globals.STATE_INIT_BEGIN
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player = get_node("player_ship")
-	player.visible = true
 	if Globals.state == Globals.STATE_INIT_BEGIN:
 		create_random_boss()
 		get_node("canvas/bonus_label").visible = false
@@ -193,22 +183,49 @@ func _process(delta):
 	elif Globals.state in [Globals.STATE_INIT]:
 			if main_block.position.y < 110:
 				main_block.position.y += 2
-	elif Globals.state in [Globals.STATE_PLAYER_HIT]:
+	elif Globals.state in [Globals.STATE_PLAYER_HIT_BEGIN]:
+		player.hidden = true
+		create_explosion(player)
+		get_node("canvas/malus_label").visible = true
+		countdown -= 20
+		Globals.state = Globals.STATE_PLAYER_HIT
+	elif Globals.state == Globals.STATE_PLAYER_HIT:
+		player.invincible_time = 50
+	elif Globals.state in [Globals.STATE_PLAYER_HIT_END]:
 		player.position = Vector2(320, 300)
-		player.visible = false
+		player.hidden = false
+		Globals.state = Globals.STATE_FIGHT
+		get_node("canvas/malus_label").visible = false
 	elif Globals.state in [Globals.STATE_FIGHT]:
 		countdown -= delta
-		if not main_block_ref.get_ref():
+		if main_block_ref != null and not main_block_ref.get_ref():
 			Globals.state = Globals.STATE_BOSS_DEFEATED
 			get_node("canvas/bonus_label").visible = true
-			countdown += 20
+			countdown += 40
+
+	if Input.is_action_just_pressed("ui_page_up"):
+		create_random_boss()
 
 	lerp_score()
 	lerp_countdown()
-	handle_ui_keys()
 	free_emitters()
+	
+	player.invincible_time = max(player.invincible_time-1, 0)
+	
+	player.visible = !player.hidden
+	if player.invincible_time % 4 != 0:
+		player.visible = false
+	player.invincible = false
+	if player.invincible_time > 0:
+		player.invincible = true
+		
+	if countdown < 0:
+		get_tree().change_scene("res://scenes/game_over.tscn")
+		# get_tree().reload_current_scene()
+		
 
 func _on_player_ship_area_entered(area):
-	if is_area_active_shot(area):
-		get_node("player_ship").visible = false
-		Globals.state = Globals.STATE_PLAYER_HIT
+	if get_node("player_ship").invincible:
+		return
+	if is_area_active_shot(area) or is_block(area):
+		Globals.state = Globals.STATE_PLAYER_HIT_BEGIN
