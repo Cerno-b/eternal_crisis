@@ -97,23 +97,20 @@ func _process(delta):
 		else:
 			self.global_rotation -= angular_speed
 	
-	counter += 1
-	if counter >= shot_delay_list[shot_stage]:
-		if type == Globals.DEATH_RAY:
-			fire_death_ray(shot_stage)
-		elif type == Globals.SHOTGUN:
-			fire_shotgun()
-		elif type == Globals.LASER:
-			fire_laser()
-		elif type == Globals.ROCKET:
-			fire_rocket()
-		else:
-			pass
-		
-		counter = 0
-		shot_stage = (shot_stage + 1) % len(shot_delay_list)
-		
-	#if death_ray_obj:
-#		death_ray_obj.global_position = self.global_position
-		#death_ray_obj.global_rotation = self.global_rotation
+	if Globals.state == Globals.STATE_FIGHT:
+		counter += 1
+		if counter >= shot_delay_list[shot_stage]:
+			if type == Globals.DEATH_RAY:
+				fire_death_ray(shot_stage)
+			elif type == Globals.SHOTGUN:
+				fire_shotgun()
+			elif type == Globals.LASER:
+				fire_laser()
+			elif type == Globals.ROCKET:
+				fire_rocket()
+			else:
+				pass
+			
+			counter = 0
+			shot_stage = (shot_stage + 1) % len(shot_delay_list)
 

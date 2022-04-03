@@ -6,7 +6,7 @@ const ANGULAR_SPEED = 0.02
 # export var player_node: NodePath
 
 var lifetime = 500
-var health = 5
+var health = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

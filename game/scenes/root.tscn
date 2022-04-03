@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/player_ship.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ship.png" type="Texture" id=2]
@@ -8,9 +8,18 @@
 [ext_resource path="res://scenes/blocks/split_block.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/blocks/main_block.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/shot.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/camera.gd" type="Script" id=9]
+[ext_resource path="res://scripts/camera.gd" type="Script" id=9]
 [ext_resource path="res://scenes/effects/small_explosion.tscn" type="PackedScene" id=10]
 [ext_resource path="res://fonts/timer_font.tres" type="DynamicFont" id=11]
+[ext_resource path="res://sprites/background.png" type="Texture" id=12]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [sub_resource type="Theme" id=2]
 
@@ -32,6 +41,11 @@ line_block_scene = ExtResource( 3 )
 gun_block_scene = ExtResource( 4 )
 small_explosion_scene = ExtResource( 10 )
 
+[node name="background" type="AnimatedSprite" parent="."]
+position = Vector2( 307, 198 )
+z_index = -3
+frames = SubResource( 4 )
+
 [node name="canvas" type="CanvasLayer" parent="."]
 
 [node name="countdown_label" type="Label" parent="canvas"]
@@ -52,6 +66,28 @@ margin_bottom = 28.0
 theme = SubResource( 3 )
 custom_fonts/font = ExtResource( 11 )
 text = "S"
+
+[node name="bonus_label" type="Label" parent="canvas"]
+visible = false
+margin_left = 528.0
+margin_top = 30.0
+margin_right = 613.0
+margin_bottom = 45.0
+custom_colors/font_color = Color( 0.333333, 0.764706, 0.309804, 1 )
+custom_fonts/font = ExtResource( 11 )
+text = "40.00S"
+align = 2
+
+[node name="malus_label" type="Label" parent="canvas"]
+visible = false
+margin_left = 528.0
+margin_top = 30.0
+margin_right = 613.0
+margin_bottom = 45.0
+custom_colors/font_color = Color( 0.921569, 0.188235, 0.188235, 1 )
+custom_fonts/font = ExtResource( 11 )
+text = "-20.00S"
+align = 2
 
 [node name="player_ship" type="AnimatedSprite" parent="."]
 position = Vector2( 267, 303 )

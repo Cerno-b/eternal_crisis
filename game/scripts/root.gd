@@ -14,6 +14,7 @@ var main_block_ref
 var rng = RandomNumberGenerator.new()
 
 var countdown = 120.0
+var target_countdown = countdown
 
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
@@ -74,7 +75,7 @@ func create_random_boss():
 		main_block.free()
 	main_block = main_block_scene.instance()
 	main_block_ref = weakref(main_block)
-	main_block.position = Vector2(320, 110)
+	main_block.position = Vector2(320, -110)
 	add_child(main_block)
 	
 	var gun = [G]
@@ -110,11 +111,13 @@ func handle_hit(shot, block):
 		
 	var relevant_blocks = get_all_child_blocks(block)
 	
-	var total_health = 0
-	for block in relevant_blocks:
-		total_health += block.health
-	for block in relevant_blocks:
-		block.health *= (1 - 1.0/total_health*Globals.GROUP_BONUS_DAMAGE_MULTIPLIER)
+	if Globals.state == Globals.STATE_FIGHT:
+		var total_health = 0
+		for block in relevant_blocks:
+			total_health += block.health
+		for block in relevant_blocks:
+			var damage = 1
+			block.health *= (1 - damage/total_health*Globals.GROUP_BONUS_DAMAGE_MULTIPLIER)
 	
 	shot.hot = false
 	shot.queue_free()
@@ -129,19 +132,18 @@ func handle_hit(shot, block):
 func free_emitters():
 	for emitter in get_tree().get_nodes_in_group("one_shot_emitters"):
 		if not emitter.emitting:
-			emitter.queue_free()
-
-func update_timer(delta):
-	countdown -= delta
+			emitter.queue_free()	
+	
+func lerp_countdown():
+	var delta = target_countdown - countdown
+	if abs(delta) < 1:
+		countdown = target_countdown
+	else:
+		countdown += 0.2 * delta / abs(delta)
 	get_node("canvas/countdown_label").text = str(countdown).pad_decimals(2)
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	create_random_boss()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func handle_ui_keys():
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
 		
@@ -153,8 +155,29 @@ func _process(delta):
 		OS.set_window_size(Vector2(1280, 720))
 	if Input.is_action_just_pressed("ui_scaling_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
-		
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+
+	if Globals.state == Globals.STATE_INIT_BEGIN:
+		create_random_boss()
+		get_node("canvas/bonus_label").visible = false
+		Globals.state = Globals.STATE_INIT
+	elif Globals.state in [Globals.STATE_INIT]:
+			if main_block.position.y < 110:
+				main_block.position.y += 2
+	elif Globals.state in [Globals.STATE_FIGHT]:
+		target_countdown -= delta
+		if not main_block_ref.get_ref():
+			Globals.state = Globals.STATE_BOSS_DEFEATED
+			get_node("canvas/bonus_label").visible = true
+			target_countdown += 20
+
+	lerp_countdown()
+	handle_ui_keys()
 	free_emitters()
-	
-	update_timer(delta)
 

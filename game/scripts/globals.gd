@@ -12,6 +12,20 @@ enum {
 	SHOT_COUNT
 }
 
+enum {STATE_INIT_BEGIN, STATE_INIT, STATE_FIGHT, STATE_PLAYER_HIT, STATE_BOSS_DEFEATED}
+
+var state = STATE_INIT_BEGIN
+
+var state_counter = 0
+
+const STATE_MAX_WAIT = {
+	STATE_INIT_BEGIN: 0,
+	STATE_INIT: 200,
+	STATE_FIGHT: 0,
+	STATE_PLAYER_HIT: 100,
+	STATE_BOSS_DEFEATED: 200
+}
+
 # damage multiplier for attacking a "deeper" block
 const GROUP_BONUS_DAMAGE_MULTIPLIER = 1.1
 
@@ -36,5 +50,13 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	var max_wait = STATE_MAX_WAIT[state]
+	if state in [STATE_INIT, STATE_BOSS_DEFEATED]:
+		state_counter += 1
+	if max_wait > 0 and state_counter >= max_wait:
+		state_counter = 0
+		if state == STATE_INIT:
+			state = STATE_FIGHT
+		elif state == STATE_BOSS_DEFEATED:
+			state = STATE_INIT_BEGIN
