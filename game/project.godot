@@ -10,9 +10,19 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Area2D",
+"class": "DeathRay",
+"language": "GDScript",
+"path": "res://scenes/enemy_shots/death_ray.gd"
+}, {
+"base": "Area2D",
 "class": "GunBlock",
 "language": "GDScript",
 "path": "res://scripts/blocks/gun_block.gd"
+}, {
+"base": "Area2D",
+"class": "Laser",
+"language": "GDScript",
+"path": "res://scripts/enemy_shots/laser.gd"
 }, {
 "base": "Area2D",
 "class": "LineBlock",
@@ -25,14 +35,28 @@ _global_script_classes=[ {
 "path": "res://scripts/blocks/main_block.gd"
 }, {
 "base": "Area2D",
+"class": "Rocket",
+"language": "GDScript",
+"path": "res://scripts/enemy_shots/rocket.gd"
+}, {
+"base": "Area2D",
+"class": "Shotgun",
+"language": "GDScript",
+"path": "res://scripts/enemy_shots/shotgun.gd"
+}, {
+"base": "Area2D",
 "class": "SplitBlock",
 "language": "GDScript",
 "path": "res://scripts/blocks/split_block.gd"
 } ]
 _global_script_class_icons={
+"DeathRay": "",
 "GunBlock": "",
+"Laser": "",
 "LineBlock": "",
 "MainBlock": "",
+"Rocket": "",
+"Shotgun": "",
 "SplitBlock": ""
 }
 

@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Rocket
+
 const SPEED = 2
 const ANGULAR_SPEED = 0.02
 

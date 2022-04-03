@@ -54,14 +54,15 @@ func fire_laser():
 func fire_death_ray(stage):
 	if stage == 0:
 		death_ray_obj = death_ray_scene.instance()
-		#death_ray_obj.global_position = self.global_position
-		#death_ray_obj.global_rotation = self.global_rotation
 		death_ray_obj.get_node("death_ray_sprite").animation = "aim"
+		death_ray_obj.set_collision_mask_bit(3, false)
 		add_child(death_ray_obj)
 	if stage == 1:
 		death_ray_obj.get_node("death_ray_sprite").animation = "shoot"
+		death_ray_obj.set_collision_mask_bit(3, true)
 	if stage == 2:
 		death_ray_obj.get_node("death_ray_sprite").animation = "aim"
+		death_ray_obj.set_collision_mask_bit(3, false)
 	if stage == 3:
 		death_ray_obj.free()
 		death_ray_obj = null
@@ -85,17 +86,18 @@ func fire_rocket():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player = get_node("/root/root/player_ship")
-	var target_rotation = player.global_position.angle_to_point(self.global_position)
-	
-	# todo: fix weird rotation issue
-	var delta_angle = self.global_rotation - target_rotation
-	if abs(delta_angle) < angular_speed:
-		self.global_rotation = target_rotation
-	else:
-		if Globals.norm_angle_rad(delta_angle) > deg2rad(180):
-			self.global_rotation += angular_speed
+
+	if player.visible:
+		var target_rotation = player.global_position.angle_to_point(self.global_position)
+		
+		var delta_angle = self.global_rotation - target_rotation
+		if abs(delta_angle) < angular_speed:
+			self.global_rotation = target_rotation
 		else:
-			self.global_rotation -= angular_speed
+			if Globals.norm_angle_rad(delta_angle) > deg2rad(180):
+				self.global_rotation += angular_speed
+			else:
+				self.global_rotation -= angular_speed
 	
 	if Globals.state == Globals.STATE_FIGHT:
 		counter += 1

@@ -11,6 +11,7 @@ todo
 * graphical hint that boss is invincible as long as timer does not run (e.g. forcefield)
 * add boss engine (?)
 * add spread shot for split and main block
+* switch to true randomize on release
 
 
 ==========
@@ -23,6 +24,8 @@ todo after
 * Find a robust way to access any node from anywhere (no playing around with string)
 * Review the code and write a cheat sheet (e.g. how to get viewport size, etc)
 * Find a good way to handle state machines (state_begin, state, state_end events)
+* Why are collision masks in code and ui offset by 1?
+* Is there a way to use "is" with "in"? e.g. if obj in [Class1, Class2]
 
 * Run a http server in the html5 dir in order to start
 	-> python -m http.server

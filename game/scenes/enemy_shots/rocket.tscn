@@ -17,6 +17,7 @@ height = 18.0
 
 [node name="rocket" type="Area2D"]
 z_index = -1
+collision_mask = 8
 script = ExtResource( 2 )
 
 [node name="rocket_sprite" type="AnimatedSprite" parent="."]

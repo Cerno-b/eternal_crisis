@@ -173,13 +173,19 @@ func handle_ui_keys():
 	if Input.is_action_just_pressed("ui_scaling_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
 
+func is_area_active_shot(area):
+	if area is Rocket or area is Laser or area is Shotgun or area is DeathRay:
+		return true
+	return false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
+	var player = get_node("player_ship")
+	player.visible = true
 	if Globals.state == Globals.STATE_INIT_BEGIN:
 		create_random_boss()
 		get_node("canvas/bonus_label").visible = false
@@ -187,6 +193,9 @@ func _process(delta):
 	elif Globals.state in [Globals.STATE_INIT]:
 			if main_block.position.y < 110:
 				main_block.position.y += 2
+	elif Globals.state in [Globals.STATE_PLAYER_HIT]:
+		player.position = Vector2(320, 300)
+		player.visible = false
 	elif Globals.state in [Globals.STATE_FIGHT]:
 		countdown -= delta
 		if not main_block_ref.get_ref():
@@ -199,3 +208,7 @@ func _process(delta):
 	handle_ui_keys()
 	free_emitters()
 
+func _on_player_ship_area_entered(area):
+	if is_area_active_shot(area):
+		get_node("player_ship").visible = false
+		Globals.state = Globals.STATE_PLAYER_HIT

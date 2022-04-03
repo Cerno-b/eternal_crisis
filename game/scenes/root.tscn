@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/player_ship.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ship.png" type="Texture" id=2]
@@ -32,6 +32,8 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="CircleShape2D" id=5]
 
 [node name="root" type="Node2D"]
 script = ExtResource( 5 )
@@ -105,9 +107,9 @@ custom_fonts/font = ExtResource( 11 )
 text = "0"
 align = 2
 
-[node name="player_ship" type="AnimatedSprite" parent="."]
-position = Vector2( 267, 303 )
-frames = SubResource( 1 )
+[node name="player_ship" type="Area2D" parent="."]
+position = Vector2( 320, 300 )
+collision_layer = 8
 script = ExtResource( 1 )
 ShotScene = ExtResource( 8 )
 
@@ -121,4 +123,12 @@ editor_draw_limits = true
 script = ExtResource( 9 )
 target = NodePath("..")
 
+[node name="player_ship_sprite" type="AnimatedSprite" parent="player_ship"]
+frames = SubResource( 1 )
+
+[node name="player_ship_shape" type="CollisionShape2D" parent="player_ship"]
+position = Vector2( 1, 0 )
+shape = SubResource( 5 )
+
 [connection signal="block_destroyed" from="." to="player_ship/camera" method="_on_root_block_destroyed"]
+[connection signal="area_entered" from="player_ship" to="." method="_on_player_ship_area_entered"]

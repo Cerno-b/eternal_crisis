@@ -52,7 +52,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var max_wait = STATE_MAX_WAIT[state]
-	if state in [STATE_INIT, STATE_BOSS_DEFEATED]:
+	if state in [STATE_INIT, STATE_BOSS_DEFEATED, STATE_PLAYER_HIT]:
 		state_counter += 1
 	if max_wait > 0 and state_counter >= max_wait:
 		state_counter = 0
@@ -60,3 +60,5 @@ func _process(delta):
 			state = STATE_FIGHT
 		elif state == STATE_BOSS_DEFEATED:
 			state = STATE_INIT_BEGIN
+		elif state == STATE_PLAYER_HIT:
+			state = STATE_FIGHT

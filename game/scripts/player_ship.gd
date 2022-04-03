@@ -1,4 +1,4 @@
-extends AnimatedSprite
+extends Area2D
 
 export var ShotScene: PackedScene
 
@@ -34,7 +34,7 @@ func _process(delta):
 	if shot_gap_counter >= SHOT_GAP:
 		shot_gap_counter = 0
 		
-	if Input.is_action_pressed("ui_fire") and shot_gap_counter == 0:
+	if Input.is_action_pressed("ui_fire") and shot_gap_counter == 0 and visible:
 		var shot = ShotScene.instance()
 		shot.position = self.position
 		shot.rotation = self.rotation

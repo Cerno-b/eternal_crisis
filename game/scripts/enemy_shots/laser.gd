@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Laser
+
 const SPEED = 4
 
 # Called when the node enters the scene tree for the first time.
