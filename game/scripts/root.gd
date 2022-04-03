@@ -14,7 +14,10 @@ var main_block_ref
 var rng = RandomNumberGenerator.new()
 
 var countdown = 120.0
-var target_countdown = countdown
+var display_countdown = countdown
+
+var score = 0
+var display_score = score
 
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
@@ -123,10 +126,17 @@ func handle_hit(shot, block):
 	shot.queue_free()
 	if block.health <= 0:
 		emit_signal("block_destroyed")
-		var boom = small_explosion_scene.instance()
-		boom.position = block.global_position
-		add_child(boom)
-		boom.emitting = true
+		#
+		# TODO: cascade explosions down and calculate score accordingly
+		#
+		if block is MainBlock:
+			score += 500
+		else:
+			score += 100
+		var explosion = small_explosion_scene.instance()
+		explosion.position = block.global_position
+		add_child(explosion)
+		explosion.emitting = true
 		block.free()
 
 func free_emitters():
@@ -135,13 +145,20 @@ func free_emitters():
 			emitter.queue_free()	
 	
 func lerp_countdown():
-	var delta = target_countdown - countdown
+	var delta = countdown - display_countdown
 	if abs(delta) < 1:
-		countdown = target_countdown
+		display_countdown = countdown
 	else:
-		countdown += 0.2 * delta / abs(delta)
-	get_node("canvas/countdown_label").text = str(countdown).pad_decimals(2)
+		display_countdown += 0.2 * delta / abs(delta)
+	get_node("canvas/countdown_label").text = str(display_countdown).pad_decimals(2)
 
+func lerp_score():
+	var delta = score - display_score
+	if abs(delta) < 1:
+		display_score = score
+	else:
+		display_score += 10 * delta / abs(delta)
+	get_node("canvas/score_label").set_text(str(display_score))
 
 func handle_ui_keys():
 	if Input.is_key_pressed(KEY_ESCAPE):
@@ -171,12 +188,13 @@ func _process(delta):
 			if main_block.position.y < 110:
 				main_block.position.y += 2
 	elif Globals.state in [Globals.STATE_FIGHT]:
-		target_countdown -= delta
+		countdown -= delta
 		if not main_block_ref.get_ref():
 			Globals.state = Globals.STATE_BOSS_DEFEATED
 			get_node("canvas/bonus_label").visible = true
-			target_countdown += 20
+			countdown += 20
 
+	lerp_score()
 	lerp_countdown()
 	handle_ui_keys()
 	free_emitters()

@@ -89,6 +89,22 @@ custom_fonts/font = ExtResource( 11 )
 text = "-20.00S"
 align = 2
 
+[node name="score_name_label" type="Label" parent="canvas"]
+margin_left = 17.0
+margin_top = 13.0
+margin_right = 107.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 11 )
+text = "SCORE: "
+
+[node name="score_label" type="Label" parent="canvas"]
+margin_top = 30.0
+margin_right = 93.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 11 )
+text = "0"
+align = 2
+
 [node name="player_ship" type="AnimatedSprite" parent="."]
 position = Vector2( 267, 303 )
 frames = SubResource( 1 )
