@@ -25,7 +25,7 @@ const SHOT_DELAY_LISTS = {
 	Globals.DEATH_RAY: [50, 50, 100, 50],
 	Globals.LASER: [200, 20, 20],
 	Globals.ROCKET: [1],
-	Globals.SHOTGUN: [1]
+	Globals.SHOTGUN: [50]
 }
 
 func setup(gun_type):
@@ -59,6 +59,17 @@ func fire_death_ray(stage):
 	if stage == 3:
 		death_ray_obj.free()
 		death_ray_obj = null
+		
+func fire_shotgun():
+	var spread = deg2rad(22)
+	var shot_count = 10
+	for i in range(shot_count):
+		var rotation_offset = rand_range(-spread/2, +spread/2)
+		var shot = shotgun_scene.instance()
+		shot.global_position = self.global_position
+		shot.global_rotation = self.global_rotation + rotation_offset
+		get_tree().root.add_child(shot)
+		
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -81,7 +92,7 @@ func _process(delta):
 		if type == Globals.DEATH_RAY:
 			fire_death_ray(shot_stage)
 		elif type == Globals.SHOTGUN:
-			pass
+			fire_shotgun()
 		elif type == Globals.LASER:
 			fire_laser()
 		elif type == Globals.ROCKET:

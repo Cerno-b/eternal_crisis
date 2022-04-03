@@ -29,11 +29,8 @@ func _process(delta):
 		trauma = max(trauma - decay * delta, 0)
 		shake()
 
-
 func start_shake():
 	trauma = 0.3
-
-
 
 func _on_root_block_destroyed():
 	start_shake()
