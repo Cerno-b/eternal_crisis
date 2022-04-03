@@ -32,6 +32,9 @@ const STATE_MAX_WAIT = {
 # damage multiplier for attacking a "deeper" block
 const GROUP_BONUS_DAMAGE_MULTIPLIER = 1.1
 
+var score = 0
+var high_score = 0
+
 func norm_angle_degree(angle_deg):
 	while angle_deg < 0:
 		angle_deg += 360
@@ -52,10 +55,7 @@ func _ready():
 	pass # Replace with function body.
 
 
-func handle_ui_keys():
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
-		
+func handle_ui_keys():	
 	if Input.is_action_just_pressed("ui_scaling_1x"):
 		OS.set_window_size(Vector2(640, 360))
 	if Input.is_action_just_pressed("ui_scaling_2x"):

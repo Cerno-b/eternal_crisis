@@ -16,8 +16,7 @@ var rng = RandomNumberGenerator.new()
 var countdown = 120.0
 var display_countdown = countdown
 
-var score = 0
-var display_score = score
+var display_score = Globals.score
 
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
@@ -137,9 +136,9 @@ func handle_hit(shot, block):
 		# TODO: cascade explosions down and calculate score accordingly
 		#
 		if block is MainBlock:
-			score += 500
+			Globals.score += 500
 		else:
-			score += 100
+			Globals.score += 100
 		create_explosion(block)
 		if block is MainBlock:
 			get_node("snd_core_dead").play()
@@ -161,9 +160,9 @@ func lerp_countdown():
 	get_node("canvas/countdown_label").text = str(display_countdown).pad_decimals(2)
 
 func lerp_score():
-	var delta = score - display_score
+	var delta = Globals.score - display_score
 	if abs(delta) < 1:
-		display_score = score
+		display_score = Globals.score
 	else:
 		display_score += 10 * delta / abs(delta)
 	get_node("canvas/score_label").set_text(str(display_score))
@@ -176,6 +175,8 @@ func is_area_active_shot(area):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.state = Globals.STATE_INIT_BEGIN
+	Globals.score = 0
+	display_score = Globals.score
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -210,6 +211,8 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("ui_page_up"):
 		create_random_boss()
+	if Input.is_action_just_pressed("ui_cancel"):
+		get_tree().change_scene("res://scenes/title.tscn")
 
 	lerp_score()
 	lerp_countdown()
@@ -226,7 +229,6 @@ func _process(delta):
 		
 	if countdown < 0:
 		get_tree().change_scene("res://scenes/game_over.tscn")
-		# get_tree().reload_current_scene()
 		
 
 func _on_player_ship_area_entered(area):

@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/title_screen.png" type="Texture" id=1]
+[ext_resource path="res://fonts/full_pack_small.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scenes/title.gd" type="Script" id=3]
+[ext_resource path="res://fonts/railway_to_hells.tres" type="DynamicFont" id=4]
+[ext_resource path="res://sprites/background.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 320, 180 )
+frames = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 17.0
+margin_top = 212.0
+margin_right = 436.0
+margin_bottom = 407.0
+custom_colors/font_color = Color( 0.764706, 0.737255, 0.0627451, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "SHOOT OFF PARTS TO EXTEND TIME.
+HOW MANY ROUNDS WILL YOU LAST?
+
+
+
+WASD: MOVE
+LEFT MOUSE BUTTON: FIRE
+
+
+ESC: EXIT"
+
+[node name="title" type="Label" parent="."]
+margin_left = 3.0
+margin_top = 42.0
+margin_right = 638.0
+margin_bottom = 130.0
+custom_colors/font_color = Color( 0.513726, 0.309804, 0.231373, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Eternal Crisis"
+align = 1
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 440.0
+margin_top = 309.0
+margin_right = 859.0
+margin_bottom = 504.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "F12: TOGGLE FULLSCREEN
+
+PRESS SPACE TO START"

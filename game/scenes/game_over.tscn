@@ -1,6 +1,56 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/game_over.gd" type="Script" id=1]
+[ext_resource path="res://fonts/full_pack_large.tres" type="DynamicFont" id=2]
+[ext_resource path="res://sprites/title_screen.png" type="Texture" id=3]
+[ext_resource path="res://scenes/score_label.gd" type="Script" id=4]
+[ext_resource path="res://sprites/background.png" type="Texture" id=5]
+[ext_resource path="res://fonts/full_pack_small.tres" type="DynamicFont" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="game_over" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 320, 180 )
+frames = SubResource( 1 )
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 1.0
+margin_top = 37.0
+margin_right = 639.0
+margin_bottom = 181.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "GAME OVER"
+align = 1
+
+[node name="score_label" type="Label" parent="."]
+margin_left = 2.0
+margin_top = 122.0
+margin_right = 639.0
+margin_bottom = 209.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "SCORE"
+align = 1
+script = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 254.0
+margin_right = 637.0
+margin_bottom = 341.0
+custom_colors/font_color = Color( 0.764706, 0.737255, 0.0627451, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "
+PRESS SPACE TO TRY AGAIN
+
+PRESS ESC TO EXIT"
+align = 1
