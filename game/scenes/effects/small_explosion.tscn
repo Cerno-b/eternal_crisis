@@ -6,7 +6,7 @@
 offsets = PoolRealArray( 0, 0.0619048, 0.171429, 0.290476, 0.566667 )
 colors = PoolColorArray( 1, 1, 1, 1, 0.857985, 0.878906, 0.209427, 1, 0.831373, 0.193352, 0.145098, 1, 0.335938, 0, 0, 1, 0.239216, 0.239216, 0.239216, 0 )
 
-[node name="small_explosion" type="CPUParticles2D"]
+[node name="small_explosion" type="CPUParticles2D" groups=["one_shot_emitters"]]
 position = Vector2( 170, 67 )
 emitting = false
 lifetime = 0.15

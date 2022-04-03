@@ -17,14 +17,14 @@ var death_ray_obj
 const ANGULAR_SPEEDS = {
 	Globals.DEATH_RAY: 0.005,
 	Globals.LASER: 0.02,
-	Globals.ROCKET: 0.2,
+	Globals.ROCKET: 0.002,
 	Globals.SHOTGUN: 0.2
 }
 
 const SHOT_DELAY_LISTS = {
 	Globals.DEATH_RAY: [50, 50, 100, 50],
 	Globals.LASER: [200, 20, 20],
-	Globals.ROCKET: [1],
+	Globals.ROCKET: [50],
 	Globals.SHOTGUN: [50]
 }
 
@@ -70,7 +70,11 @@ func fire_shotgun():
 		shot.global_rotation = self.global_rotation + rotation_offset
 		get_tree().root.add_child(shot)
 		
-	
+func fire_rocket():
+	var shot = rocket_scene.instance()
+	shot.global_position = self.global_position
+	shot.global_rotation = self.global_rotation
+	get_tree().root.add_child(shot)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -96,7 +100,7 @@ func _process(delta):
 		elif type == Globals.LASER:
 			fire_laser()
 		elif type == Globals.ROCKET:
-			pass
+			fire_rocket()
 		else:
 			pass
 		

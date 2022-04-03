@@ -18,7 +18,7 @@ func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
 	if new_block is GunBlock:
 		# new_block.setup(rng.randi_range(0,4))
-		new_block.setup(Globals.SHOTGUN)
+		new_block.setup(Globals.ROCKET)
 	source_block.add_child(new_block)
 	add_to_group("blocks")
 	var node = source_block.out_nodes[source_node_idx]
@@ -125,6 +125,11 @@ func handle_hit(shot, block):
 		boom.emitting = true
 		block.free()
 
+func free_emitters():
+	for emitter in get_tree().get_nodes_in_group("one_shot_emitters"):
+		if not emitter.emitting:
+			emitter.queue_free()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	create_random_boss()
@@ -143,6 +148,8 @@ func _process(delta):
 		OS.set_window_size(Vector2(1280, 720))
 	if Input.is_action_just_pressed("ui_scaling_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+		
+	free_emitters()
 		
 	# handle_shots()
 
