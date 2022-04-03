@@ -141,6 +141,10 @@ func handle_hit(shot, block):
 		else:
 			score += 100
 		create_explosion(block)
+		if block is MainBlock:
+			get_node("snd_core_dead").play()
+		else:
+			get_node("snd_block_dead").play()
 		block.free()
 
 func free_emitters():
@@ -186,6 +190,7 @@ func _process(delta):
 	elif Globals.state in [Globals.STATE_PLAYER_HIT_BEGIN]:
 		player.hidden = true
 		create_explosion(player)
+		get_node("player_ship/snd_dead").play()
 		get_node("canvas/malus_label").visible = true
 		countdown -= 20
 		Globals.state = Globals.STATE_PLAYER_HIT

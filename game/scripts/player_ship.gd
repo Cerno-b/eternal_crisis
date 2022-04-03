@@ -39,6 +39,8 @@ func _process(delta):
 		shot_gap_counter = 0
 		
 	if Input.is_action_pressed("ui_fire") and shot_gap_counter == 0 and visible:
+		var shot_audio = get_node("snd_shot")
+		shot_audio.play()
 		var shot = ShotScene.instance()
 		shot.position = self.position
 		shot.rotation = self.rotation

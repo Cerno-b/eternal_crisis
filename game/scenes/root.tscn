@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/player_ship.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ship.png" type="Texture" id=2]
@@ -12,6 +12,11 @@
 [ext_resource path="res://scenes/effects/small_explosion.tscn" type="PackedScene" id=10]
 [ext_resource path="res://fonts/timer_font.tres" type="DynamicFont" id=11]
 [ext_resource path="res://sprites/background.png" type="Texture" id=12]
+[ext_resource path="res://audio/the_inevitable.mp3" type="AudioStream" id=13]
+[ext_resource path="res://audio/dead.wav" type="AudioStream" id=14]
+[ext_resource path="res://audio/block_dead.wav" type="AudioStream" id=15]
+[ext_resource path="res://audio/core_dead.wav" type="AudioStream" id=16]
+[ext_resource path="res://audio/shot.wav" type="AudioStream" id=17]
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
@@ -42,6 +47,16 @@ split_block_scene = ExtResource( 6 )
 line_block_scene = ExtResource( 3 )
 gun_block_scene = ExtResource( 4 )
 small_explosion_scene = ExtResource( 10 )
+
+[node name="snd_block_dead" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+
+[node name="snd_core_dead" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+autoplay = true
 
 [node name="background" type="AnimatedSprite" parent="."]
 position = Vector2( 307, 198 )
@@ -112,6 +127,14 @@ position = Vector2( 320, 300 )
 collision_layer = 8
 script = ExtResource( 1 )
 ShotScene = ExtResource( 8 )
+
+[node name="snd_shot" type="AudioStreamPlayer" parent="player_ship"]
+stream = ExtResource( 17 )
+volume_db = -19.528
+
+[node name="snd_dead" type="AudioStreamPlayer" parent="player_ship"]
+stream = ExtResource( 14 )
+volume_db = -6.812
 
 [node name="camera" type="Camera2D" parent="player_ship"]
 position = Vector2( 1, -3 )
