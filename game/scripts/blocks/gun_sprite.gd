@@ -7,33 +7,31 @@ export var shotgun_scene: PackedScene
 
 var type = -1
 var angular_speed = 0
-var shot_delay = 1000
+var shot_delay_list = []
 
 var counter = 0
+var shot_stage = 0
 
-const DEATH_RAY = 0
-const LASER = 1
-const ROCKET = 2
-const SHOTGUN = 3
+var death_ray_obj
 
 const ANGULAR_SPEEDS = {
-	DEATH_RAY: 0.05,
-	LASER: 0.02,
-	ROCKET: 0.2,
-	SHOTGUN: 0.2
+	Globals.DEATH_RAY: 0.005,
+	Globals.LASER: 0.02,
+	Globals.ROCKET: 0.2,
+	Globals.SHOTGUN: 0.2
 }
 
-const SHOT_DELAYS = {
-	DEATH_RAY: 1,
-	LASER: 200,
-	ROCKET: 1,
-	SHOTGUN: 1
+const SHOT_DELAY_LISTS = {
+	Globals.DEATH_RAY: [50, 50, 100, 50],
+	Globals.LASER: [200, 20, 20],
+	Globals.ROCKET: [1],
+	Globals.SHOTGUN: [1]
 }
 
 func setup(gun_type):
 	type = gun_type
 	angular_speed = ANGULAR_SPEEDS[type]
-	shot_delay = SHOT_DELAYS[type]
+	shot_delay_list = SHOT_DELAY_LISTS[type]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,6 +39,27 @@ func _ready():
 	# self.offset.x = -get_parent().in_node[0]
 	# self.offset.y = -get_parent().in_node[1]
 
+func fire_laser():
+	var shot = laser_scene.instance()
+	shot.global_position = self.global_position
+	shot.global_rotation = self.global_rotation
+	get_tree().root.add_child(shot)
+	
+func fire_death_ray(stage):
+	if stage == 0:
+		death_ray_obj = death_ray_scene.instance()
+		#death_ray_obj.global_position = self.global_position
+		#death_ray_obj.global_rotation = self.global_rotation
+		death_ray_obj.get_node("death_ray_sprite").animation = "aim"
+		add_child(death_ray_obj)
+	if stage == 1:
+		death_ray_obj.get_node("death_ray_sprite").animation = "shoot"
+	if stage == 2:
+		death_ray_obj.get_node("death_ray_sprite").animation = "aim"
+	if stage == 3:
+		death_ray_obj.free()
+		death_ray_obj = null
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -58,18 +77,22 @@ func _process(delta):
 			self.global_rotation -= angular_speed
 	
 	counter += 1
-	if counter >= shot_delay:
-		counter = 0
-		if type == DEATH_RAY:
+	if counter >= shot_delay_list[shot_stage]:
+		if type == Globals.DEATH_RAY:
+			fire_death_ray(shot_stage)
+		elif type == Globals.SHOTGUN:
 			pass
-		elif type == SHOTGUN:
-			pass
-		elif type == LASER:
-			var shot = laser_scene.instance()
-			shot.global_position = self.global_position
-			shot.global_rotation = self.global_rotation
-			get_tree().root.add_child(shot)
-		elif type == ROCKET:
+		elif type == Globals.LASER:
+			fire_laser()
+		elif type == Globals.ROCKET:
 			pass
 		else:
 			pass
+		
+		counter = 0
+		shot_stage = (shot_stage + 1) % len(shot_delay_list)
+		
+	#if death_ray_obj:
+#		death_ray_obj.global_position = self.global_position
+		#death_ray_obj.global_rotation = self.global_rotation
+

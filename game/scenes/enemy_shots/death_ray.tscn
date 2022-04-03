@@ -20,6 +20,7 @@ animations = [ {
 extents = Vector2( 349, 2 )
 
 [node name="death_ray" type="Area2D"]
+collision_layer = 4
 
 [node name="death_ray_sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

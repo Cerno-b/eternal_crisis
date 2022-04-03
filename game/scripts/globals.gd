@@ -4,6 +4,13 @@ extends Node
 const MAX_BLOCK_HEALTH = 20
 const MAX_MAIN_BLOCK_HEALTH = 40
 
+enum {
+	DEATH_RAY,
+	LASER,
+	ROCKET,
+	SHOTGUN
+}
+
 # damage multiplier for attacking a "deeper" block
 const GROUP_BONUS_DAMAGE_MULTIPLIER = 1.1
 
