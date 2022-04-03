@@ -2,8 +2,9 @@ extends AnimatedSprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.offset.x = -get_parent().in_node[0]
-	self.offset.y = -get_parent().in_node[1]
+	# pass
+	#self.offset.x = -get_parent().in_node[0]
+	#self.offset.y = -get_parent().in_node[1]
 	
 	for out_node in get_parent().out_nodes:
 		out_node[0] -= get_parent().in_node[0]

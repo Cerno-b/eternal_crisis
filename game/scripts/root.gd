@@ -1,32 +1,30 @@
 extends Node2D
 
+signal block_destroyed
 
-export var main_block_scene: PackedScene #load("res://scenes/main_block.tscn")
-export var split_block_scene: PackedScene #load("res://scenes/split_block.tscn")
-export var line_block_scene: PackedScene #load("res://scenes/line_block.tscn")
-export var gun_block_scene: PackedScene #load("res://scenes/gun_block.tscn")
+export var main_block_scene: PackedScene
+export var split_block_scene: PackedScene
+export var line_block_scene: PackedScene
+export var gun_block_scene: PackedScene
+export var small_explosion_scene: PackedScene
 
 var main_block
 var main_block_ref
 
 var rng = RandomNumberGenerator.new()
 
-func norm_angle(angle_deg):
-	while angle_deg < 0:
-		angle_deg += 360
-	while angle_deg >= 360:
-		angle_deg -= 360
-	return angle_deg
-		
 
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
+	if new_block is GunBlock:
+		# new_block.setup(rng.randi_range(0,4))
+		new_block.setup(1)
 	source_block.add_child(new_block)
 	add_to_group("blocks")
 	var node = source_block.out_nodes[source_node_idx]
 	new_block.position = Vector2(node[0], node[1])
-	var left_side = norm_angle(source_block.global_rotation_degrees + 90) >= 180
-	var front = norm_angle(source_block.global_rotation_degrees) == 90
+	var left_side = Globals.norm_angle_degree(source_block.global_rotation_degrees + 90) >= 180
+	var front = Globals.norm_angle_degree(source_block.global_rotation_degrees) == 90
 	if source_block is LineBlock and front:
 		new_block.rotation_degrees = 0
 	elif source_block is LineBlock and left_side:
@@ -120,6 +118,11 @@ func handle_hit(shot, block):
 	shot.hot = false
 	shot.queue_free()
 	if block.health <= 0:
+		emit_signal("block_destroyed")
+		var boom = small_explosion_scene.instance()
+		boom.position = block.global_position
+		add_child(boom)
+		boom.emitting = true
 		block.free()
 
 # Called when the node enters the scene tree for the first time.
@@ -142,3 +145,4 @@ func _process(delta):
 		OS.window_fullscreen = !OS.window_fullscreen
 		
 	# handle_shots()
+

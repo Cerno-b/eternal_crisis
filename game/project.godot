@@ -12,22 +12,22 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "GunBlock",
 "language": "GDScript",
-"path": "res://scripts/gun_block.gd"
+"path": "res://scripts/blocks/gun_block.gd"
 }, {
 "base": "Area2D",
 "class": "LineBlock",
 "language": "GDScript",
-"path": "res://scripts/line_block.gd"
+"path": "res://scripts/blocks/line_block.gd"
 }, {
 "base": "Area2D",
 "class": "MainBlock",
 "language": "GDScript",
-"path": "res://scripts/main_block.gd"
+"path": "res://scripts/blocks/main_block.gd"
 }, {
 "base": "Area2D",
 "class": "SplitBlock",
 "language": "GDScript",
-"path": "res://scripts/split_block.gd"
+"path": "res://scripts/blocks/split_block.gd"
 } ]
 _global_script_class_icons={
 "GunBlock": "",

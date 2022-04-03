@@ -10,6 +10,9 @@ var out_nodes = [
 
 var in_node = [3, 7, 180]
 
+func setup(type):
+	get_node("gun_sprite").setup(type)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
