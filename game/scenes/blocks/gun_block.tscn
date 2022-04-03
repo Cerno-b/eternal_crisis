@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/blocks/gun_block_sprite.gd" type="Script" id=1]
 [ext_resource path="res://scripts/blocks/gun_block.gd" type="Script" id=2]
@@ -13,10 +13,6 @@
 [ext_resource path="res://sprites/gun_block_gun1.png" type="Texture" id=11]
 [ext_resource path="res://sprites/gun_block_gun3.png" type="Texture" id=12]
 [ext_resource path="res://sprites/gun_block_gun4.png" type="Texture" id=13]
-[ext_resource path="res://audio/laser.wav" type="AudioStream" id=14]
-[ext_resource path="res://audio/death_ray.wav" type="AudioStream" id=15]
-[ext_resource path="res://audio/shotgun.wav" type="AudioStream" id=16]
-[ext_resource path="res://audio/rocket.wav" type="AudioStream" id=17]
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
@@ -30,14 +26,14 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "shotgun",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "rocket",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "death_ray",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 11 ) ],
@@ -45,9 +41,9 @@ animations = [ {
 "name": "laser",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
-"name": "shotgun",
+"name": "death_ray",
 "speed": 5.0
 } ]
 
@@ -75,19 +71,3 @@ death_ray_scene = ExtResource( 9 )
 laser_scene = ExtResource( 8 )
 rocket_scene = ExtResource( 7 )
 shotgun_scene = ExtResource( 10 )
-
-[node name="snd_death_ray" type="AudioStreamPlayer" parent="gun_sprite"]
-stream = ExtResource( 15 )
-volume_db = -16.721
-
-[node name="snd_laser" type="AudioStreamPlayer" parent="gun_sprite"]
-stream = ExtResource( 14 )
-volume_db = -11.725
-
-[node name="snd_shotgun" type="AudioStreamPlayer" parent="gun_sprite"]
-stream = ExtResource( 16 )
-volume_db = -16.721
-
-[node name="snd_rocket" type="AudioStreamPlayer" parent="gun_sprite"]
-stream = ExtResource( 17 )
-volume_db = -21.345

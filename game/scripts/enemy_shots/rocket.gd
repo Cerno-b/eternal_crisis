@@ -12,7 +12,7 @@ var health = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	add_to_group("rockets")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,5 +28,4 @@ func _process(delta):
 	self.position += Vector2(1,0).rotated(self.rotation) * SPEED
 	
 	lifetime -= 1
-	if lifetime <= 0:
-		self.queue_free()
+

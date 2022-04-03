@@ -50,7 +50,9 @@ func fire_laser():
 	shot.global_position = self.global_position
 	shot.global_rotation = self.global_rotation
 	get_node("/root/root").add_child(shot)
-	get_node("snd_laser").play()
+	var snd = get_node("/root/root/snd_laser")
+	if not snd.playing:
+		snd.play()
 	
 func fire_death_ray(stage):
 	if stage == 0:
@@ -61,7 +63,10 @@ func fire_death_ray(stage):
 	if stage == 1:
 		death_ray_obj.get_node("death_ray_sprite").animation = "shoot"
 		death_ray_obj.set_collision_mask_bit(3, true)
-		get_node("snd_death_ray").play()
+		var snd = get_node("/root/root/snd_death_ray")
+		if not snd.playing:
+			snd.play()
+
 	if stage == 2:
 		death_ray_obj.get_node("death_ray_sprite").animation = "aim"
 		death_ray_obj.set_collision_mask_bit(3, false)
@@ -78,14 +83,19 @@ func fire_shotgun():
 		shot.global_position = self.global_position
 		shot.global_rotation = self.global_rotation + rotation_offset
 		get_node("/root/root").add_child(shot)
-		get_node("snd_shotgun").play()
+		var snd = get_node("/root/root/snd_shotgun")
+		if not snd.playing:
+			snd.play()
 		
 func fire_rocket():
 	var shot = rocket_scene.instance()
 	shot.global_position = self.global_position
 	shot.global_rotation = self.global_rotation
 	get_node("/root/root").add_child(shot)
-	get_node("snd_rocket").play()
+	var snd = get_node("/root/root/snd_rocket")
+	if not snd.playing:
+		snd.play()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

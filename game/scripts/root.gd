@@ -167,7 +167,10 @@ func free_emitters():
 			emitter.queue_free()	
 			
 func free_rockets():
-	pass			
+	for rocket in get_tree().get_nodes_in_group("rockets"):
+		if rocket.lifetime <= 0 or Globals.state == Globals.STATE_BOSS_DEFEATED:
+			create_explosion(rocket)
+			rocket.queue_free()
 			
 	
 func lerp_countdown():
@@ -193,6 +196,7 @@ func is_area_active_shot(area):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
 	Globals.state = Globals.STATE_INIT_BEGIN
 	Globals.score = 0
 	display_score = Globals.score
