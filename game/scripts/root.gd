@@ -132,18 +132,15 @@ func handle_hit(shot, block):
 	shot.queue_free()
 	if block.health <= 0:
 		emit_signal("block_destroyed")
-		#
-		# TODO: cascade explosions down and calculate score accordingly
-		#
-		if block is MainBlock:
-			Globals.score += 500
-		else:
-			Globals.score += 100
-		create_explosion(block)
-		if block is MainBlock:
-			get_node("snd_core_dead").play()
-		else:
-			get_node("snd_block_dead").play()
+		for child in get_all_child_blocks(block):
+			if child is MainBlock:
+				Globals.score += 500
+				get_node("snd_core_dead").play()
+			else:
+				Globals.score += 100
+				get_node("snd_block_dead").play()
+			create_explosion(child)
+
 		block.free()
 
 func free_emitters():

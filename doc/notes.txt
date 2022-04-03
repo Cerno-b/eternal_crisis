@@ -2,14 +2,10 @@
 todo
 ====
 
-* explosion cascade (particles for each block)
-* larger explosion for main body
-* limit gun angles?
+* larger explosion for main body and ship
 * make rockets explode on timeout
-* why does viewport size go to 400 in full screen but ship moves out at the bottom anyway?
 * move boss around
 * graphical hint that boss is invincible as long as timer does not run (e.g. forcefield)
-* add boss engine (?)
 * add spread shot for split and main block
 * switch to true randomize on release
 * show -20s longer
@@ -27,6 +23,7 @@ todo after
 * Find a good way to handle state machines (state_begin, state, state_end events)
 * Why are collision masks in code and ui offset by 1?
 * Is there a way to use "is" with "in"? e.g. if obj in [Class1, Class2]
+* why does viewport size go to 400 in full screen but ship moves out at the bottom anyway?
 
 * Run a http server in the html5 dir in order to start
 	-> python -m http.server

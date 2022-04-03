@@ -29,7 +29,7 @@ margin_right = 639.0
 margin_bottom = 181.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "GAME OVER"
+text = "TIME UP"
 align = 1
 
 [node name="score_label" type="Label" parent="."]
