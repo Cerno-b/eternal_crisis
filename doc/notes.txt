@@ -10,6 +10,7 @@ todo
 * add spread shot for split and main block
 * switch to true randomize on release
 * show -20s longer
+* destroy all rockets on boss death
 
 
 ==========

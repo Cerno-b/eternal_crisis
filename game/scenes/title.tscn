@@ -28,7 +28,7 @@ margin_right = 436.0
 margin_bottom = 407.0
 custom_colors/font_color = Color( 0.764706, 0.737255, 0.0627451, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "DEFEAT THE ATTACKER TO EXTEND TIME.
+text = "DEFEAT THE BOSS TO EXTEND TIME.
 HOW MANY ROUNDS WILL YOU LAST?
 
 

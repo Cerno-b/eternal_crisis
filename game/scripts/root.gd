@@ -14,6 +14,7 @@ var main_block_ref
 
 var rng = RandomNumberGenerator.new()
 
+var level = 1
 var countdown = 120.0
 var display_countdown = countdown
 
@@ -55,10 +56,12 @@ func create_blocks_from_definition(source_block, definition, source_node_idx):
 		
 func create_random_definition_rec(current_depth, target_depth):
 	if current_depth + 1 == target_depth:
+		Globals.gun_count += 1
 		return [G]
 	var r = rng.randi_range(0, 3)
 	var def = []
 	if r == 0:
+		Globals.gun_count += 1
 		def = [G]
 	elif r in [1,2]:
 		def = [L, create_random_definition_rec(current_depth+1, target_depth)]
@@ -87,13 +90,27 @@ func create_random_boss():
 	var split_line_gun = [S, line_gun_2, line_gun_2]
 	var definition = split_line_gun
 	
-	var depth = 5
-	definition = create_random_definition(depth)
-	create_blocks_from_definition(main_block, definition, 0)
-	definition = create_random_definition(depth)
-	create_blocks_from_definition(main_block, definition, 1)
-	definition = create_random_definition(depth)
-	create_blocks_from_definition(main_block, definition, 2)
+	var best_definition_set = []
+	var definition_set = []
+	
+	var side_depth = min(level, 10)
+	var front_depth = min(level, 5)
+	var target_gun_count = round(level*1.7)
+	var best_delta = 10000
+	for i in range(100):
+		Globals.gun_count = 0
+		var def_r = create_random_definition(side_depth)
+		var def_f = create_random_definition(front_depth)
+		var def_l = create_random_definition(side_depth)
+		definition_set = [def_r, def_f, def_l]
+		var delta = abs(Globals.gun_count - target_gun_count)
+		if delta < best_delta:
+			best_definition_set = definition_set
+			best_delta = delta
+
+	create_blocks_from_definition(main_block, best_definition_set[0], 0)
+	create_blocks_from_definition(main_block, best_definition_set[1], 1)
+	create_blocks_from_definition(main_block, best_definition_set[2], 2)
 
 func is_block(block):
 	return block is LineBlock or block is SplitBlock or block is GunBlock or block is MainBlock
@@ -126,7 +143,7 @@ func handle_hit(shot, block):
 		for block in relevant_blocks:
 			total_health += block.health
 		for block in relevant_blocks:
-			var damage = 1
+			var damage = 2 # 1
 			block.health *= (1 - damage/total_health*Globals.GROUP_BONUS_DAMAGE_MULTIPLIER)
 	
 	shot.hot = false
@@ -148,6 +165,10 @@ func free_emitters():
 	for emitter in get_tree().get_nodes_in_group("one_shot_emitters"):
 		if not emitter.emitting:
 			emitter.queue_free()	
+			
+func free_rockets():
+	pass			
+			
 	
 func lerp_countdown():
 	var delta = countdown - display_countdown
@@ -204,6 +225,7 @@ func _process(delta):
 		countdown -= delta
 		if main_block_ref != null and not main_block_ref.get_ref():
 			Globals.state = Globals.STATE_BOSS_DEFEATED
+			level += 1
 			get_node("canvas/bonus_label").visible = true
 			countdown += 40
 
@@ -215,6 +237,7 @@ func _process(delta):
 	lerp_score()
 	lerp_countdown()
 	free_emitters()
+	free_rockets()
 	
 	player.invincible_time = max(player.invincible_time-1, 0)
 	

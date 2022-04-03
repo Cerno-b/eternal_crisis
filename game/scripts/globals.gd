@@ -19,6 +19,8 @@ var state = STATE_INIT_BEGIN
 
 var state_counter = 0
 
+var gun_count = 0
+
 const STATE_MAX_WAIT = {
 	STATE_INIT_BEGIN: 0,
 	STATE_INIT: 200,
