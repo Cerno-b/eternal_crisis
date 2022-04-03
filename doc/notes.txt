@@ -3,6 +3,7 @@ todo
 ====
 
 * larger explosion for main body and ship
+* revisit soundtrack
 * make rockets explode on timeout
 * move boss around
 * graphical hint that boss is invincible as long as timer does not run (e.g. forcefield)

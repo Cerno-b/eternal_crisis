@@ -7,6 +7,7 @@ export var split_block_scene: PackedScene
 export var line_block_scene: PackedScene
 export var gun_block_scene: PackedScene
 export var small_explosion_scene: PackedScene
+export var large_explosion_scene: PackedScene
 
 var main_block
 var main_block_ref
@@ -107,7 +108,7 @@ func get_all_child_blocks(block):
 			
 
 func create_explosion(node):
-	var explosion = small_explosion_scene.instance()
+	var explosion = large_explosion_scene.instance()
 	explosion.position = node.global_position
 	add_child(explosion)
 	explosion.emitting = true
