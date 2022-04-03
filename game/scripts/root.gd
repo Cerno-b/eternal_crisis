@@ -17,8 +17,8 @@ var rng = RandomNumberGenerator.new()
 func add_block(source_block, new_block_scene, source_node_idx):
 	var new_block = new_block_scene.instance()
 	if new_block is GunBlock:
-		# new_block.setup(rng.randi_range(0,4))
-		new_block.setup(Globals.ROCKET)
+		new_block.setup(rng.randi_range(0,Globals.SHOT_COUNT-1))
+		# new_block.setup(Globals.ROCKET)
 	source_block.add_child(new_block)
 	add_to_group("blocks")
 	var node = source_block.out_nodes[source_node_idx]

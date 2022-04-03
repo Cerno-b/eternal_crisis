@@ -5,6 +5,8 @@ todo
 * explosion cascade (particles for each block)
 * larger explosion for main body
 * limit gun angles?
+* make rockets explode on timeout
+* limit player to screen
 
 
 ==========

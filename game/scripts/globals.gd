@@ -8,7 +8,8 @@ enum {
 	DEATH_RAY,
 	LASER,
 	ROCKET,
-	SHOTGUN
+	SHOTGUN,
+	SHOT_COUNT
 }
 
 # damage multiplier for attacking a "deeper" block

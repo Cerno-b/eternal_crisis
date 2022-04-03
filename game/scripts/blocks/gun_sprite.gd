@@ -28,16 +28,22 @@ const SHOT_DELAY_LISTS = {
 	Globals.SHOTGUN: [50]
 }
 
+const SPRITE_NAMES = {
+	Globals.DEATH_RAY: "death_ray",
+	Globals.LASER: "laser",
+	Globals.ROCKET: "rocket",
+	Globals.SHOTGUN: "shotgun"
+}
+
 func setup(gun_type):
 	type = gun_type
 	angular_speed = ANGULAR_SPEEDS[type]
 	shot_delay_list = SHOT_DELAY_LISTS[type]
+	animation = SPRITE_NAMES[type]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-	# self.offset.x = -get_parent().in_node[0]
-	# self.offset.y = -get_parent().in_node[1]
 
 func fire_laser():
 	var shot = laser_scene.instance()

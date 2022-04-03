@@ -21,13 +21,13 @@ func _process(delta):
 	var player_pos = self.global_position
 	self.rotation = mouse_pos.angle_to_point(player_pos)
 
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left") and self.position.x > 0:
 		self.position.x -= SPEED
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") and self.position.x < get_viewport().size.x:
 		self.position.x += SPEED
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("ui_up") and self.position.y > 0:
 		self.position.y -= SPEED
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down") and self.position.y < get_viewport().size.y:
 		self.position.y += SPEED
 	
 	shot_gap_counter += 1
