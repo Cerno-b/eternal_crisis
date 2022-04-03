@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/blocks/main_block_shape.gd" type="Script" id=1]
 [ext_resource path="res://scripts/blocks/main_block_sprite.gd" type="Script" id=2]
 [ext_resource path="res://scripts/blocks/main_block.gd" type="Script" id=3]
 [ext_resource path="res://sprites/main_block.png" type="Texture" id=4]
+[ext_resource path="res://sprites/explosion_small.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -12,6 +13,10 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.997512, 1 )
+colors = PoolColorArray( 0.407843, 0.937255, 1, 1, 0.980392, 0.996078, 1, 0, 1, 1, 1, 1 )
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 20.0
@@ -23,9 +28,20 @@ script = ExtResource( 3 )
 [node name="main_block_sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 centered = false
+offset = Vector2( -21, -21 )
 script = ExtResource( 2 )
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="main_block_sprite"]
+position = Vector2( 1, 1 )
+lifetime = 3.73
+texture = ExtResource( 5 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 4.57
+color = Color( 0.682353, 1, 0.980392, 0.294118 )
+color_ramp = SubResource( 3 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 22, 22 )
+position = Vector2( 1, 1 )
 shape = SubResource( 2 )
 script = ExtResource( 1 )
