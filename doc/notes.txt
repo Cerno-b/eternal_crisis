@@ -7,7 +7,6 @@ todo
 * move boss around
 * graphical hint that boss is invincible as long as timer does not run (e.g. forcefield)
 * add spread shot for split and main block
-* switch to true randomize on release
 * show -20s longer
 
 
@@ -24,6 +23,7 @@ todo after
 * Why are collision masks in code and ui offset by 1?
 * Is there a way to use "is" with "in"? e.g. if obj in [Class1, Class2]
 * why does viewport size go to 400 in full screen but ship moves out at the bottom anyway?
+* Elegant solution to prevent duplicate sound playback (volume problem)
 
 * Run a http server in the html5 dir in order to start
 	-> python -m http.server

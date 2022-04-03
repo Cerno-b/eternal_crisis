@@ -22,9 +22,9 @@ const ANGULAR_SPEEDS = {
 }
 
 const SHOT_DELAY_LISTS = {
-	Globals.DEATH_RAY: [50, 50, 100, 50],
+	Globals.DEATH_RAY: [80, 50, 80, 50],
 	Globals.LASER: [200, 20, 20],
-	Globals.ROCKET: [50],
+	Globals.ROCKET: [60],
 	Globals.SHOTGUN: [50]
 }
 
