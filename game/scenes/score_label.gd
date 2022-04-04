@@ -10,7 +10,8 @@ extends Label
 func _ready():
 	Globals.high_score = max(Globals.high_score, Globals.score)
 	text = "SCORE: " + str(Globals.score) + "\n\n"
-	text += "SESSION HIGH SCORE: " + str(Globals.high_score)
+	text += "SESSION HIGH SCORE: " + str(Globals.high_score) + "\n\n"
+	text += "YOU REACHED ROUND " + str(Globals.level) + "\n\n"
 	set_text(text)
 
 

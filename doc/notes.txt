@@ -7,7 +7,6 @@ todo
 * move boss around
 * graphical hint that boss is invincible as long as timer does not run (e.g. forcefield)
 * add spread shot for split and main block
-* show -20s longer
 
 
 ==========

@@ -14,7 +14,6 @@ var main_block_ref
 
 var rng = RandomNumberGenerator.new()
 
-var level = 1
 var countdown = 120.0
 var display_countdown = countdown
 
@@ -93,9 +92,9 @@ func create_random_boss():
 	var best_definition_set = []
 	var definition_set = []
 	
-	var side_depth = min(level, 10)
-	var front_depth = min(level, 5)
-	var target_gun_count = round(level*1.7)
+	var side_depth = min(Globals.level, 10)
+	var front_depth = min(Globals.level, 5)
+	var target_gun_count = round(Globals.level*1.7)
 	var best_delta = 10000
 	for i in range(100):
 		Globals.gun_count = 0
@@ -206,7 +205,6 @@ func _process(delta):
 	var player = get_node("player_ship")
 	if Globals.state == Globals.STATE_INIT_BEGIN:
 		create_random_boss()
-		get_node("canvas/bonus_label").visible = false
 		Globals.state = Globals.STATE_INIT
 	elif Globals.state in [Globals.STATE_INIT]:
 			if main_block.position.y < 110:
@@ -224,12 +222,12 @@ func _process(delta):
 		player.position = Vector2(320, 300)
 		player.hidden = false
 		Globals.state = Globals.STATE_FIGHT
-		get_node("canvas/malus_label").visible = false
 	elif Globals.state in [Globals.STATE_FIGHT]:
 		countdown -= delta
 		if main_block_ref != null and not main_block_ref.get_ref():
 			Globals.state = Globals.STATE_BOSS_DEFEATED
-			level += 1
+			Globals.level += 1
+			get_node("canvas/level_label").text = "ROUND: " + str(Globals.level)
 			get_node("canvas/bonus_label").visible = true
 			countdown += 40
 
@@ -257,7 +255,7 @@ func _process(delta):
 		
 
 func _on_player_ship_area_entered(area):
-	if get_node("player_ship").invincible:
+	if get_node("player_ship").invincible or Globals.state == Globals.STATE_BOSS_DEFEATED:
 		return
 	if is_area_active_shot(area) or is_block(area):
 		Globals.state = Globals.STATE_PLAYER_HIT_BEGIN

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scripts/player_ship.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ship.png" type="Texture" id=2]
@@ -22,6 +22,9 @@
 [ext_resource path="res://audio/laser.wav" type="AudioStream" id=20]
 [ext_resource path="res://audio/shotgun.wav" type="AudioStream" id=21]
 [ext_resource path="res://audio/rocket.wav" type="AudioStream" id=22]
+[ext_resource path="res://scenes/bonus_label.gd" type="Script" id=23]
+[ext_resource path="res://scenes/malus_label.gd" type="Script" id=24]
+[ext_resource path="res://audio/ping.wav" type="AudioStream" id=25]
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
@@ -42,6 +45,10 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.726368, 1 )
+colors = PoolColorArray( 0.0130939, 0.664633, 0.67041, 1, 1, 1, 1, 1, 0, 0, 0, 0 )
 
 [sub_resource type="CircleShape2D" id=5]
 
@@ -100,6 +107,7 @@ custom_colors/font_color = Color( 0.333333, 0.764706, 0.309804, 1 )
 custom_fonts/font = ExtResource( 11 )
 text = "40.00S"
 align = 2
+script = ExtResource( 23 )
 
 [node name="malus_label" type="Label" parent="canvas"]
 visible = false
@@ -111,22 +119,34 @@ custom_colors/font_color = Color( 0.921569, 0.188235, 0.188235, 1 )
 custom_fonts/font = ExtResource( 11 )
 text = "-20.00S"
 align = 2
+script = ExtResource( 24 )
 
 [node name="score_name_label" type="Label" parent="canvas"]
-margin_left = 17.0
+margin_left = 32.0
 margin_top = 13.0
-margin_right = 107.0
+margin_right = 122.0
 margin_bottom = 28.0
+rect_pivot_offset = Vector2( -635, -65 )
 custom_fonts/font = ExtResource( 11 )
 text = "SCORE: "
 
 [node name="score_label" type="Label" parent="canvas"]
+margin_left = 15.0
 margin_top = 30.0
-margin_right = 93.0
+margin_right = 108.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 11 )
 text = "0"
 align = 2
+
+[node name="level_label" type="Label" parent="canvas"]
+margin_left = 12.0
+margin_top = 334.0
+margin_right = 102.0
+margin_bottom = 349.0
+rect_pivot_offset = Vector2( -635, -65 )
+custom_fonts/font = ExtResource( 11 )
+text = "ROUND: 1"
 
 [node name="player_ship" type="Area2D" parent="."]
 position = Vector2( 320, 300 )
@@ -155,6 +175,46 @@ target = NodePath("..")
 [node name="player_ship_sprite" type="AnimatedSprite" parent="player_ship"]
 frames = SubResource( 1 )
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="player_ship/player_ship_sprite"]
+position = Vector2( -11, -12 )
+amount = 10
+direction = Vector2( -1, 0 )
+spread = 8.84
+gravity = Vector2( 0, 0 )
+initial_velocity = 9.0
+scale_amount = 2.0
+color_ramp = SubResource( 6 )
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="player_ship/player_ship_sprite"]
+position = Vector2( -11, 12 )
+amount = 10
+direction = Vector2( -1, 0 )
+spread = 8.84
+gravity = Vector2( 0, 0 )
+initial_velocity = 9.0
+scale_amount = 2.0
+color_ramp = SubResource( 6 )
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="player_ship/player_ship_sprite"]
+position = Vector2( -11, 7 )
+amount = 10
+direction = Vector2( -1, 0 )
+spread = 8.84
+gravity = Vector2( 0, 0 )
+initial_velocity = 9.0
+scale_amount = 2.0
+color_ramp = SubResource( 6 )
+
+[node name="CPUParticles2D4" type="CPUParticles2D" parent="player_ship/player_ship_sprite"]
+position = Vector2( -11, -7 )
+amount = 10
+direction = Vector2( -1, 0 )
+spread = 8.84
+gravity = Vector2( 0, 0 )
+initial_velocity = 9.0
+scale_amount = 2.0
+color_ramp = SubResource( 6 )
+
 [node name="player_ship_shape" type="CollisionShape2D" parent="player_ship"]
 position = Vector2( 1, 0 )
 shape = SubResource( 5 )
@@ -173,6 +233,10 @@ volume_db = -6.276
 
 [node name="snd_rocket" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 22 )
+volume_db = -21.345
+
+[node name="snd_ping" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 25 )
 volume_db = -21.345
 
 [connection signal="block_destroyed" from="." to="player_ship/camera" method="_on_root_block_destroyed"]
